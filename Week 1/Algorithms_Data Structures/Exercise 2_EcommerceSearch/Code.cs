@@ -63,14 +63,12 @@ class Program
             new Product(5, "Phone", "Electronics"),
         };
 
-        // Linear Search (unsorted)
-        Console.WriteLine("🔍 Linear Search for 'Phone'");
+        Console.WriteLine("Linear Search for 'Phone'");
         var resultLinear = LinearSearch(products, "Phone");
         Console.WriteLine(resultLinear != null ? resultLinear.ToString() : "Product not found");
 
-        // Binary Search (requires sorted array by name)
         var sortedProducts = products.OrderBy(p => p.ProductName).ToArray();
-        Console.WriteLine("\n🔍 Binary Search for 'Phone'");
+        Console.WriteLine("\n Binary Search for 'Phone'");
         var resultBinary = BinarySearch(sortedProducts, "Phone");
         Console.WriteLine(resultBinary != null ? resultBinary.ToString() : "Product not found");
     }
