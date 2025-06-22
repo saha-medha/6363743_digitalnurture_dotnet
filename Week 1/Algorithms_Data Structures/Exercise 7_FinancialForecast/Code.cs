@@ -1,42 +1,33 @@
-﻿using System;
+using System;
 
-class Program
+class FinancialForecast
 {
-
-    public static double ForecastFutureValueRecursive(double initialAmount, double growthRate, int years)
+    static void Main()
     {
-        if (years == 0)
-            return initialAmount;
-
-        return (1 + growthRate) * ForecastFutureValueRecursive(initialAmount, growthRate, years - 1);
-    }
-    public static double ForecastFutureValueIterative(double initialAmount, double growthRate, int years)
-    {
-        double result = initialAmount;
-        for (int i = 0; i < years; i++)
+        Console.Write("Enter initial investment amount: ");
+        if (!double.TryParse(Console.ReadLine(), out double initialValue) || initialValue < 0)
         {
-            result *= (1 + growthRate);
+            Console.WriteLine("Invalid input. Please enter a valid positive number.");
+            return;
         }
-        return result;
-    }
 
-    static void Main(string[] args)
-    {
-        Console.WriteLine("=== Financial Forecasting Tool ===");
+        Console.Write("Enter annual growth rate (in %): ");
+        if (!double.TryParse(Console.ReadLine(), out double growthRatePercent))
+        {
+            Console.WriteLine("Invalid input. Please enter a valid number.");
+            return;
+        }
+        double growthRate = growthRatePercent / 100.0;
 
-        double initialAmount = 10000;          
-        double annualGrowthRate = 0.10;        
-        int years = 5;                           
+        Console.Write("Enter number of years to forecast: ");
+        if (!int.TryParse(Console.ReadLine(), out int years) || years < 0)
+        {
+            Console.WriteLine("Invalid input. Please enter a valid positive integer.");
+            return;
+        }
 
-        double futureValueRecursive = ForecastFutureValueRecursive(initialAmount, annualGrowthRate, years);
+        double futureValue = initialValue * Math.Pow(1 + growthRate, years);
 
-        double futureValueIterative = ForecastFutureValueIterative(initialAmount, annualGrowthRate, years);
-
-        Console.WriteLine($"\nInitial Amount: ₹{initialAmount}");
-        Console.WriteLine($"Annual Growth Rate: {annualGrowthRate * 100}%");
-        Console.WriteLine($"Forecast Period: {years} years");
-
-        Console.WriteLine($"\n Recursive Forecast Result: ₹{Math.Round(futureValueRecursive, 2)}");
-        Console.WriteLine($"Iterative Forecast Result: ₹{Math.Round(futureValueIterative, 2)}");
-    }
+        Console.WriteLine($"\nForecasted Value after {years} years: {futureValue:C2}");
+}
 }
