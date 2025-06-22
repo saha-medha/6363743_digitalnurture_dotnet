@@ -1,83 +1,47 @@
-﻿using System;
-
-#region Document Interface and Classes
-public interface IDocument
+using System;
+public interface IShape
 {
-    void Open();
+    void Draw();
 }
-public class WordDocument : IDocument
+public class Circle : IShape
 {
-    public void Open()
+    public void Draw()
     {
-        Console.WriteLine("Opening Word document...");
+        Console.WriteLine("Drawing a Circle");
     }
 }
-public class PdfDocument : IDocument
+public class Square : IShape
 {
-    public void Open()
+    public void Draw()
     {
-        Console.WriteLine("Opening PDF document...");
+        Console.WriteLine("Drawing a Square");
     }
 }
-public class ExcelDocument : IDocument
+public class ShapeFactory
 {
-    public void Open()
+    public IShape GetShape(string shapeType)
     {
-        Console.WriteLine("Opening Excel document...");
+        switch (shapeType.ToLower())
+        {
+            case "circle":
+                return new Circle();
+            case "square":
+                return new Square();
+            default:
+                throw new ArgumentException("Unknown shape type");
+        }
     }
 }
-
-#endregion
-
-#region Factory Classes
-
-public abstract class DocumentFactory
-{
-    public abstract IDocument CreateDocument();
-}
-
-public class WordDocumentFactory : DocumentFactory
-{
-    public override IDocument CreateDocument()
-    {
-        return new WordDocument();
-    }
-}
-
-public class PdfDocumentFactory : DocumentFactory
-{
-    public override IDocument CreateDocument()
-    {
-        return new PdfDocument();
-    }
-}
-
-public class ExcelDocumentFactory : DocumentFactory
-{
-    public override IDocument CreateDocument()
-    {
-        return new ExcelDocument();
-    }
-}
-
-#endregion
-
-#region Program Class (Testing the Pattern)
-
 class Program
 {
     static void Main(string[] args)
     {
-        DocumentFactory wordFactory = new WordDocumentFactory();
-        IDocument wordDoc = wordFactory.CreateDocument();
-        wordDoc.Open();
-        DocumentFactory pdfFactory = new PdfDocumentFactory();
-        IDocument pdfDoc = pdfFactory.CreateDocument();
-        pdfDoc.Open();
-        DocumentFactory excelFactory = new ExcelDocumentFactory();
-        IDocument excelDoc = excelFactory.CreateDocument();
-        excelDoc.Open();
+        ShapeFactory factory = new ShapeFactory();
+
+        IShape shape1 = factory.GetShape("circle");
+        shape1.Draw();
+
+        IShape shape2 = factory.GetShape("square");
+        shape2.Draw();
     }
 }
-
-#endregion
