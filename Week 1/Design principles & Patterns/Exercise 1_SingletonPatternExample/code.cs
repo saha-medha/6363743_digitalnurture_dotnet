@@ -1,43 +1,45 @@
 using System;
-
-public class Singleton
+public class Logger
 {
-    private static Singleton instance = null;
-    private static readonly object lockObj = new object();
-    private Singleton()
+    private static Logger _instance;
+    private static readonly object _lock = new object();
+
+    private Logger()
     {
-        Console.WriteLine("Singleton instance created.");
+        Console.WriteLine("Logger initialized.");
     }
-    public static Singleton GetInstance()
+
+    public static Logger GetInstance()
     {
-        if (instance == null)
+        lock (_lock)
         {
-            lock (lockObj)
+            if (_instance == null)
             {
-                if (instance == null)
-                {
-                    instance = new Singleton();
-                }
+                _instance = new Logger();
             }
         }
-        return instance;
+        return _instance;
     }
-
-    public void ShowMessage()
+    public void Log(string message)
     {
-        Console.WriteLine("Hello from Singleton!");
+        Console.WriteLine("[LOG] " + message);
     }
 }
 class Program
 {
     static void Main(string[] args)
     {
-        Singleton obj1 = Singleton.GetInstance();
-        obj1.ShowMessage();
-
-        Singleton obj2 = Singleton.GetInstance();
-        obj2.ShowMessage();
-
-        Console.WriteLine("Are both instances the same? " + (obj1 == obj2));
+        Logger logger1 = Logger.GetInstance();
+        Logger logger2 = Logger.GetInstance();
+        logger1.Log("First message");
+        logger2.Log("Second message");
+        if (logger1 == logger2)
+        {
+            Console.WriteLine("Both logger instances are the same.");
+        }
+        else
+        {
+            Console.WriteLine("Logger instances are different!");
+        }
     }
 }
