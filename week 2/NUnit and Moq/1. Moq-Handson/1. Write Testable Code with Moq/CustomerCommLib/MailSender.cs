@@ -15,7 +15,7 @@ namespace CustomerCommLib
             MailMessage mail = new MailMessage();
             SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
 
-            mail.From = new MailAddress("your_email@gmail.com");
+            mail.From = new MailAddress("sahamedha1315@gmail.com");
             mail.To.Add(toAddress);
             mail.Subject = "Test Mail";
             mail.Body = message;
